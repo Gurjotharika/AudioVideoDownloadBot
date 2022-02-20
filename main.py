@@ -2,6 +2,8 @@ import pip._vendor.requests
 from telegram import *
 from telegram import ReplyKeyboardMarkup
 import os
+PORT = int(os.environ.get('PORT', 5000))
+
 from telegram.ext import Updater, CommandHandler, CallbackContext, \
     MessageHandler, Filters
 
@@ -29,7 +31,7 @@ def textHandler(update: Update, context: CallbackContext) -> None:
 
     if update.message.parse_entities(types = MessageEntity.URL):
         download_url = get_Download_URL_From_API(user_message)
-        update.message.reply_text(text=f'Your download url is: {download_url}')
+        update.message.reply_text(text=f'Download Video: {download_url}')
         #main()
     else :
         update.message.reply_text(text=f'Please Enter Vaild Url')
@@ -39,6 +41,11 @@ def textHandler(update: Update, context: CallbackContext) -> None:
 def main():
     TOKEN = "5247525812:AAFn8W_PFEodFXGUPVK7liZoB_d6fRj8MuA"
     updater = Updater(TOKEN, use_context=True)
+    updater.start_webhook(listen="0.0.0.0",
+                          port=int(PORT),
+                          url_path=TOKEN)
+    updater.bot.setWebhook('https://avdownloader.herokuapp.com/' + TOKEN)
+
     updater.dispatcher.add_handler(CommandHandler('start', start))
     updater.dispatcher.add_handler(MessageHandler(Filters.all & ~Filters.command, textHandler, run_async=True))
     updater.start_polling()
