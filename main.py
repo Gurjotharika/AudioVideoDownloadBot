@@ -41,14 +41,16 @@ def textHandler(update: Update, context: CallbackContext) -> None:
 def main():
     TOKEN = "5247525812:AAFn8W_PFEodFXGUPVK7liZoB_d6fRj8MuA"
     updater = Updater(TOKEN, use_context=True)
+    
+
+    updater.dispatcher.add_handler(CommandHandler('start', start))
+    updater.dispatcher.add_handler(MessageHandler(Filters.all & ~Filters.command, textHandler, run_async=True))
+
     updater.start_webhook(listen="0.0.0.0",
                           port=int(PORT),
                           url_path=TOKEN)
     updater.bot.setWebhook('https://avdownloader.herokuapp.com/' + TOKEN)
 
-    updater.dispatcher.add_handler(CommandHandler('start', start))
-    updater.dispatcher.add_handler(MessageHandler(Filters.all & ~Filters.command, textHandler, run_async=True))
-    updater.start_polling()
     #updater.idle()
 
 if __name__ == '__main__':
