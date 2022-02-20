@@ -8,8 +8,6 @@ from telegram.ext import Updater, CommandHandler, CallbackContext, \
 
 PORT = int(os.environ.get('PORT', 8443))
 
-
-
 def get_Download_URL_From_API(url):
     API_URL = "https://getvideo.p.rapidapi.com/"
     querystring = {"url": f"{url}"}
@@ -25,7 +23,7 @@ def get_Download_URL_From_API(url):
     return data['streams'][0]['url']
 
 def start(update: Update, context: CallbackContext) -> None:
-    update.message.reply_text(text='Hello, I am Audio Video Downloader Bot.\nSend the link of video/audio that you want to download', reply_markup=keyboard1)
+    update.message.reply_text(text='Hello, I am Audio Video Downloader Bot.\nSend the link of video/audio that you want to download')
 
 def textHandler(update: Update, context: CallbackContext) -> None:
     user_message = str(update.message.text)
