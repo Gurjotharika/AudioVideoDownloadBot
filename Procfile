@@ -1,1 +1,1 @@
-telegram-bot
+web: python3 bot.py
